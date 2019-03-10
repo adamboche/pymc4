@@ -144,10 +144,12 @@ class RandomVariable(WithBackendArithmetic):
 
 
 class ContinuousRV(RandomVariable):
+    bijector = bijectors.Identity
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._transformed_distribution = tfd.TransformedDistribution(
-            distribution=self._distribution, bijector=bijectors.Identity()
+            distribution=self._distribution, bijector=bijectors.Invert(self.bijector())
         )
 
     def log_prob(self):
@@ -156,6 +158,16 @@ class ContinuousRV(RandomVariable):
         Done based on the transformed distribution, not the base distribution.
         """
         return self._transformed_distribution.log_prob(self)
+
+    def as_tensor(self):
+        ctx = contexts.get_context()
+        if id(ctx) != self._creation_context_id:
+            raise ValueError("Cannot convert to tensor under new context.")
+        if self._backend_tensor is None:
+            self._backend_tensor = ctx.var_as_backend_tensor(self)
+
+        return self.bijector().forward(self._backend_tensor)
+
 
 
 class DiscreteRV(RandomVariable):
@@ -171,31 +183,11 @@ class DiscreteRV(RandomVariable):
 
 
 class PositiveContinuousRV(ContinuousRV):
-    def __init__(self, *args, **kwargs):
-        """Initialize PositiveContinuousRV.
-
-        Developer Note
-        --------------
-            The inverse of the exponential bijector is the log bijector.
-        """
-        super().__init__(*args, **kwargs)
-        self._transformed_distribution = tfd.TransformedDistribution(
-            distribution=self._distribution, bijector=bijectors.Invert(bijectors.Exp())
-        )
+    bijector = bijectors.Exp
 
 
 class UnitContinuousRV(ContinuousRV):
-    def __init__(self, *args, **kwargs):
-        """Initialize UnitContinuousRV.
-
-        Developer Note
-        --------------
-            The inverse of the sigmoid bijector is the logodds bijector.
-        """
-        super().__init__(*args, **kwargs)
-        self._transformed_distribution = tfd.TransformedDistribution(
-            distribution=self._distribution, bijector=bijectors.Invert(bijectors.Sigmoid())
-        )
+    bijector = bijectors.Sigmoid
 
 
 TensorLike = NewType("TensorLike", Union[Sequence[int], Sequence[float], int, float])
