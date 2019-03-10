@@ -9,10 +9,8 @@ Implements random variables not supported by tfp as distributions.
 import tensorflow_probability as tfp
 from tensorflow_probability import distributions as tfd
 
-from .random_variable import PositiveContinuousRV, ContinuousRV, UnitContinuousRV
-
-
-from .random_variable import RandomVariable, TensorLike, IntTensorLike
+from .random_variable import PositiveRV, RandomVariable, UnitContinuousRV
+from .random_variable import TensorLike, IntTensorLike
 
 
 class Beta(UnitContinuousRV):
@@ -74,7 +72,7 @@ class Beta(UnitContinuousRV):
         return tfd.Beta(concentration0=alpha, concentration1=beta, *args, **kwargs)
 
 
-class Cauchy(ContinuousRV):
+class Cauchy(RandomVariable):
     r"""
     Cauchy random variable.
 
@@ -129,7 +127,7 @@ class Cauchy(ContinuousRV):
         return tfd.Cauchy(loc=alpha, scale=beta, **kwargs)
 
 
-class ChiSquared(PositiveContinuousRV):
+class ChiSquared(PositiveRV):
     r"""
     :math:`\chi^2` random variable.
 
@@ -180,7 +178,7 @@ class ChiSquared(PositiveContinuousRV):
         return tfd.Chi2(df=nu, *args, **kwargs)
 
 
-class Exponential(PositiveContinuousRV):
+class Exponential(PositiveRV):
     r"""
     Exponential random variable.
 
@@ -227,7 +225,7 @@ class Exponential(PositiveContinuousRV):
         return tfd.Exponential(rate=lam)
 
 
-class Gamma(PositiveContinuousRV):
+class Gamma(PositiveRV):
     r"""
     Gamma random variable.
 
@@ -284,7 +282,7 @@ class Gamma(PositiveContinuousRV):
         return tfd.Gamma(concentration=alpha, rate=beta, *args, **kwargs)
 
 
-class Gumbel(ContinuousRV):
+class Gumbel(RandomVariable):
     r"""
     Univariate Gumbel random variable.
 
@@ -343,7 +341,7 @@ class Gumbel(ContinuousRV):
         return tfd.Gumbel(loc=mu, scale=beta, *args, **kwargs)
 
 
-class HalfCauchy(PositiveContinuousRV):
+class HalfCauchy(PositiveRV):
     r"""
     Half-Cauchy random variable.
 
@@ -393,7 +391,7 @@ class HalfCauchy(PositiveContinuousRV):
         return tfd.HalfCauchy(loc=0, scale=beta)
 
 
-class HalfNormal(PositiveContinuousRV):
+class HalfNormal(PositiveRV):
     r"""
     Half-normal random variable.
 
@@ -461,7 +459,7 @@ class HalfNormal(PositiveContinuousRV):
         return tfd.HalfNormal(scale=sigma, **kwargs)
 
 
-class HalfStudentT(PositiveContinuousRV):
+class HalfStudentT(PositiveRV):
     r"""
     Half Student's T random variable.
 
@@ -535,7 +533,7 @@ class HalfStudentT(PositiveContinuousRV):
         )
 
 
-class InverseGamma(PositiveContinuousRV):
+class InverseGamma(PositiveRV):
     r"""
     Inverse gamma random variable, the reciprocal of the gamma distribution.
 
@@ -590,7 +588,7 @@ class InverseGamma(PositiveContinuousRV):
         return tfd.InverseGamma(concentration=alpha, rate=beta, *args, **kwargs)
 
 
-class InverseGaussian(PositiveContinuousRV):
+class InverseGaussian(PositiveRV):
     r"""
     InverseGaussian random variable.
 
@@ -665,7 +663,7 @@ class Kumaraswamy(UnitContinuousRV):
         return tfd.Kumaraswamy(concentration0=a, concentration1=b, *args, **kwargs)
 
 
-class Laplace(ContinuousRV):
+class Laplace(RandomVariable):
     r"""
     Laplace random variable.
 
@@ -718,7 +716,7 @@ class Laplace(ContinuousRV):
         return tfd.Laplace(loc=mu, scale=b)
 
 
-class Logistic(ContinuousRV):
+class Logistic(RandomVariable):
     r"""
     Logistic random variable.
 
@@ -802,7 +800,7 @@ class LogitNormal(UnitContinuousRV):
         )
 
 
-class LogNormal(PositiveContinuousRV):
+class LogNormal(PositiveRV):
     r"""
     Log-normal random variable.
 
@@ -868,7 +866,7 @@ class LogNormal(PositiveContinuousRV):
         return tfd.LogNormal(loc=mu, scale=sigma, **kwargs)
 
 
-class Normal(ContinuousRV):
+class Normal(RandomVariable):
     r"""
     Univariate normal random variable.
 
@@ -993,7 +991,7 @@ class Pareto(RandomVariable):
         return tfd.Pareto(concentration=alpha, scale=m)
 
 
-class StudentT(ContinuousRV):
+class StudentT(RandomVariable):
     r"""
     Student's T random variable.
 
@@ -1182,7 +1180,7 @@ class Uniform(UnitContinuousRV):
         return tfd.Uniform(low=lower, high=upper, *args, **kwargs)
 
 
-class VonMises(ContinuousRV):
+class VonMises(RandomVariable):
     r"""
     Univariate VonMises random variable.
 
@@ -1237,7 +1235,7 @@ class VonMises(ContinuousRV):
         return tfd.VonMises(loc=mu, concentration=kappa, *args, **kwargs)
 
 
-class Weibull(PositiveContinuousRV):
+class Weibull(PositiveRV):
     r"""
     Weibull random variable.
 

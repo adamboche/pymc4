@@ -151,12 +151,6 @@ class RandomVariable(WithBackendArithmetic):
         return self._bijector.forward(self._backend_tensor)
 
 
-class ContinuousRV(RandomVariable):
-    pass
-
-class DiscreteRV(RandomVariable):
-    pass
-
 class PositiveContinuousRV(ContinuousRV):
     _bijector = bijectors.Exp()
 
