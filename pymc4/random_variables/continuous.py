@@ -9,7 +9,7 @@ Implements random variables not supported by tfp as distributions.
 import tensorflow_probability as tfp
 from tensorflow_probability import distributions as tfd
 
-from .random_variable import PositiveRV, RandomVariable, UnitContinuousRV
+from .random_variable import PositiveContinuousRV, RandomVariable, UnitContinuousRV
 from .random_variable import TensorLike, IntTensorLike
 
 
@@ -127,7 +127,7 @@ class Cauchy(RandomVariable):
         return tfd.Cauchy(loc=alpha, scale=beta, **kwargs)
 
 
-class ChiSquared(PositiveRV):
+class ChiSquared(PositiveContinuousRV):
     r"""
     :math:`\chi^2` random variable.
 
@@ -178,7 +178,7 @@ class ChiSquared(PositiveRV):
         return tfd.Chi2(df=nu, *args, **kwargs)
 
 
-class Exponential(PositiveRV):
+class Exponential(PositiveContinuousRV):
     r"""
     Exponential random variable.
 
@@ -225,7 +225,7 @@ class Exponential(PositiveRV):
         return tfd.Exponential(rate=lam)
 
 
-class Gamma(PositiveRV):
+class Gamma(PositiveContinuousRV):
     r"""
     Gamma random variable.
 
@@ -341,7 +341,7 @@ class Gumbel(RandomVariable):
         return tfd.Gumbel(loc=mu, scale=beta, *args, **kwargs)
 
 
-class HalfCauchy(PositiveRV):
+class HalfCauchy(PositiveContinuousRV):
     r"""
     Half-Cauchy random variable.
 
@@ -391,7 +391,7 @@ class HalfCauchy(PositiveRV):
         return tfd.HalfCauchy(loc=0, scale=beta)
 
 
-class HalfNormal(PositiveRV):
+class HalfNormal(PositiveContinuousRV):
     r"""
     Half-normal random variable.
 
@@ -459,7 +459,7 @@ class HalfNormal(PositiveRV):
         return tfd.HalfNormal(scale=sigma, **kwargs)
 
 
-class HalfStudentT(PositiveRV):
+class HalfStudentT(PositiveContinuousRV):
     r"""
     Half Student's T random variable.
 
@@ -533,7 +533,7 @@ class HalfStudentT(PositiveRV):
         )
 
 
-class InverseGamma(PositiveRV):
+class InverseGamma(PositiveContinuousRV):
     r"""
     Inverse gamma random variable, the reciprocal of the gamma distribution.
 
@@ -588,7 +588,7 @@ class InverseGamma(PositiveRV):
         return tfd.InverseGamma(concentration=alpha, rate=beta, *args, **kwargs)
 
 
-class InverseGaussian(PositiveRV):
+class InverseGaussian(PositiveContinuousRV):
     r"""
     InverseGaussian random variable.
 
@@ -800,7 +800,7 @@ class LogitNormal(UnitContinuousRV):
         )
 
 
-class LogNormal(PositiveRV):
+class LogNormal(PositiveContinuousRV):
     r"""
     Log-normal random variable.
 
@@ -1235,7 +1235,7 @@ class VonMises(RandomVariable):
         return tfd.VonMises(loc=mu, concentration=kappa, *args, **kwargs)
 
 
-class Weibull(PositiveRV):
+class Weibull(PositiveContinuousRV):
     r"""
     Weibull random variable.
 
