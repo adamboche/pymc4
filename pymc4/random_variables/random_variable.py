@@ -108,13 +108,13 @@ class RandomVariable(WithBackendArithmetic):
     calculating the log_prob, while the base distribution is used for sampling
     purposes.
     """
+
     _bijector = bijectors.Identity()
     _base_dist = None
 
     def __init__(self, name: str, *args, **kwargs):
         self._parents = []
-        self._untransformed_distribution = self._base_dist(name=name,
-                                                           *args, **kwargs)
+        self._untransformed_distribution = self._base_dist(name=name, *args, **kwargs)
         self._sample_shape = ()
         self._dim_names = ()
         self.name = name
@@ -125,8 +125,7 @@ class RandomVariable(WithBackendArithmetic):
         self._bijector = kwargs.get("bijector", self._bijector)
 
         self._distribution = tfd.TransformedDistribution(
-            distribution=self._untransformed_distribution,
-            bijector=bijectors.Invert(self._bijector)
+            distribution=self._untransformed_distribution, bijector=bijectors.Invert(self._bijector)
         )
         ctx.add_variable(self)
 
