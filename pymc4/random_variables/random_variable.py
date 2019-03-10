@@ -121,9 +121,8 @@ class RandomVariable(WithBackendArithmetic):
         ctx = contexts.get_context()
         self._creation_context_id = id(ctx)
         self._backend_tensor = None
-        if "bijector" in kwargs.keys():
-            # Override default bijector
-            self._bijector = kwargs["bijector"]
+        # Override default bijector if provided
+        self._bijector = kwargs.get("bijector", self._bijector)
 
         self._distribution = tfd.TransformedDistribution(
             distribution=self._untransformed_distribution,
