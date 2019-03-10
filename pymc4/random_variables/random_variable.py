@@ -169,7 +169,6 @@ class ContinuousRV(RandomVariable):
         return self.bijector().forward(self._backend_tensor)
 
 
-
 class DiscreteRV(RandomVariable):
     def log_prob(self):
         """Log probability computation.
