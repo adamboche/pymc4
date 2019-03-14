@@ -96,9 +96,9 @@ class SchoolsModel:
 #     treatment_effects=Normal(loc=school_effects, scale=sigma),
 # )
 
-# observe(**data) or optionally __init__(**data) assigns observed data to the variables. observe() is like attr.evolve() but it combines the value of each observed variable with its prior into a new instance attribute. Possibly it returns a new Observed object with a prior and an observed component.
+# observe(**data) or optionally __init__(**data) assigns observed data to the variables. observe() is like attr.evolve() but it combines the value of each observed variable with its prior into a new instance attribute.
 
-# observed = observe(treatment_effects=[1., 2., 3., 4., 5., 6., 7., 8.])
+# observed_model = observe(treatment_effects=[1., 2., 3., 4., 5., 6., 7., 8.])
 
 # Now the repr is
 
@@ -117,7 +117,7 @@ class SchoolsModel:
 
 # Sample from the observed instance:
 
-# trace = sample(observed)
+# trace = sample(observed_model)
 
 # Summarize:
 
