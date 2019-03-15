@@ -30,6 +30,7 @@ def find_symbol_name(model_class, symbol):
             return k
     raise ValueError(f"Symbol {symbol} not found")
 
+
 # Should the values be converted into tensorflow as soon as possible?
 # Could it be made to work with tf.placeholder immediately?
 def make_random_variable(model_class, name, random_variable_template):
@@ -67,6 +68,12 @@ def make_expr(name, value):
     return attr.ib(default=ExplicitReprSymbol(name))
 
 
+@attr.s
+class Observed:
+    model = attr.ib()
+    data = attr.ib()
+
+
 def model(cls):
     these = {}
     for k, v in cls.__dict__.items():
@@ -80,6 +87,11 @@ def model(cls):
             these[k] = make_expr(k, v)
 
     return attr.make_class(cls.__name__, these)
+
+
+def observe(model, **data):
+    Dataset = attr.make_class("Dataset", list(data.keys()))
+    return Observed(model, Dataset(**data))
 
 
 class RandomVariableTemplate:
@@ -116,4 +128,9 @@ class SchoolsModel:
 
 
 inst = SchoolsModel(num_schools=8, sigma=1)
+observed = observe(inst, treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
+# tensorized = tensorize(observed)
+# samples = sample(tensorized)
+
 print(inst)
+print(observed)
