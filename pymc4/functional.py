@@ -31,23 +31,6 @@ def find_symbol_name(model_class, symbol):
     raise ValueError(f"Symbol {symbol} not found")
 
 
-# Should the values be converted into tensorflow as soon as possible?
-# Could it be made to work with tf.placeholder immediately?
-def make_random_variable(model_class, name, random_variable_template):
-    distribution = getattr(edward2, random_variable_template.distribution_name)
-    parameters = attr.asdict(random_variable_template)
-    symbolic_expressions = {
-        k: v for k, v in attr.asdict(random_variable_template).items() if isinstance(v, sympy.Expr)
-    }
-    if symbolic_expressions:
-        symbolic_expressions = {
-            k: ExplicitReprSymbol(find_symbol_name(model_class, v))
-            for k, v in symbolic_expressions.items()
-        }
-        return lambda: attr.evolve(random_variable_template, **symbolic_expressions)
-    return lambda: distribution(name=name, **parameters)
-
-
 def make_random_variable(model_class, name, random_variable_template):
     symbolic_expressions = {
         k: v for k, v in attr.asdict(random_variable_template).items() if isinstance(v, sympy.Expr)
@@ -110,12 +93,6 @@ class NormalRV(RandomVariableTemplate, sympy.Symbol):
         return instance
 
 
-@attr.s(hash=True)
-class Normal_:
-    loc = attr.ib(default=0.0)
-    scale = attr.ib(default=1.0)
-
-
 @model
 class SchoolsModel:
     num_schools = ScalarInteger()
@@ -129,8 +106,7 @@ class SchoolsModel:
 
 inst = SchoolsModel(num_schools=8, sigma=1)
 observed = observe(inst, treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
-# tensorized = tensorize(observed)
-# samples = sample(tensorized)
+# samples = sample(observed)
 
 print(inst)
 print(observed)
