@@ -2,8 +2,6 @@ import inspect
 import itertools
 
 import attr
-import tensorflow as tf
-from tensorflow_probability import edward2
 import sympy
 
 
