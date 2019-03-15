@@ -21,7 +21,7 @@ ScalarFloat = lambda: sympy.Symbol(next_name())
 
 class ExplicitReprSymbol(sympy.Symbol):
     def __repr__(self):
-        return "Symbol({})".format(super().__repr__())
+        return "<Symbol {}>".format(super().__repr__())
 
 
 def find_symbol_name(model_class, symbol):
@@ -110,8 +110,8 @@ print(inst)
 #     avg_effect=NormalRV(loc=0.0, scale=10.0),
 #     avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #     school_effects_standard=NormalRV(loc=0.0, scale=1.0),
-#     school_effects=Symbol(school_effects),
-#     treatment_effects=NormalRV(loc=Symbol(school_effects), scale=Symbol(sigma)),
+#     school_effects=<Symbol school_effects>,
+#     treatment_effects=NormalRV(loc=<Symbol school_effects>, scale=<Symbol sigma>),
 # )
 
 observed = observe(inst, treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
@@ -124,8 +124,8 @@ print(observed)
 #         avg_effect=NormalRV(loc=0.0, scale=10.0),
 #         avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #         school_effects_standard=NormalRV(loc=0.0, scale=1.0),
-#         school_effects=Symbol(school_effects),
-#         treatment_effects=NormalRV(loc=Symbol(school_effects), scale=Symbol(sigma)),
+#         school_effects=<Symbol school_effects>,
+#         treatment_effects=NormalRV(loc=<Symbol school_effects>, scale=<Symbol sigma>),
 #     ),
 #     data=Dataset(treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]),
 # )
