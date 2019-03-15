@@ -101,12 +101,12 @@ class SchoolsModel:
     treatment_effects = NormalRV(loc=school_effects, scale=sigma)
 
 
-inst = SchoolsModel(num_schools=8, sigma=1)
+inst = SchoolsModel(num_schools=8, sigma=1.0)
 
 print(inst)
 # SchoolsModel(
 #     num_schools=8,
-#     sigma=1,
+#     sigma=1.0,
 #     avg_effect=NormalRV(loc=0.0, scale=10.0),
 #     avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #     school_effects_standard=NormalRV(loc=0.0, scale=1.0),
@@ -120,7 +120,7 @@ print(observed)
 # Observed(
 #     model=SchoolsModel(
 #         num_schools=8,
-#         sigma=1,
+#         sigma=1.0,
 #         avg_effect=NormalRV(loc=0.0, scale=10.0),
 #         avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #         school_effects_standard=NormalRV(loc=0.0, scale=1.0),
