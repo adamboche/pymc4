@@ -67,7 +67,7 @@ class Observed:
     data = attr.ib()
 
 
-def model(cls):
+def symbolic(cls):
     these = {}
     for k, v in cls.__dict__.items():
         if not isinstance(v, (sympy.Expr, sympy.Symbol)):
@@ -103,7 +103,7 @@ class NormalRV(RandomVariableTemplate, sympy.Symbol):
         return instance
 
 
-@model
+@symbolic
 class SchoolsModel:
     num_schools = ScalarInteger()
     sigma = ScalarFloat()
