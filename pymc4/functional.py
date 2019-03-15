@@ -114,8 +114,6 @@ class SchoolsModel:
     treatment_effects = NormalRV(loc=school_effects, scale=sigma)
 
 
-# TODO Replace sympy with tensorflow entirely?
-# TODO In @symbolic, replace the symbols that don't need to be symbolic with attrs POPOs?
 
 inst = SchoolsModel(num_schools=8, sigma=1.0)
 
