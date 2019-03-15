@@ -33,12 +33,9 @@ def find_symbol_name(model_class, symbol):
 
 def make_random_variable(model_class, name, random_variable_template):
     symbolic_expressions = {
-        k: v for k, v in attr.asdict(random_variable_template).items() if isinstance(v, sympy.Expr)
-    }
-
-    symbolic_expressions = {
         k: ExplicitReprSymbol(find_symbol_name(model_class, v))
-        for k, v in symbolic_expressions.items()
+        for k, v in attr.asdict(random_variable_template).items()
+        if isinstance(v, sympy.Expr)
     }
     return lambda: attr.evolve(random_variable_template, **symbolic_expressions)
 
