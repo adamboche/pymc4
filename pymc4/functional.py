@@ -24,9 +24,12 @@ class ExplicitReprSymbol(sympy.Symbol):
         return "<Symbol {}>".format(super().__repr__())
 
 
-class ExplicitReprExpr(sympy.Expr):
+@attr.s(repr=False)
+class Expr:
+    formula = attr.ib()
+
     def __repr__(self):
-        return "<Expr {}>".format(super().__repr__())
+        return f"<{type(self).__name__} {self.formula}>"
 
 
 def find_symbol_name(model_class, symbol):
@@ -49,8 +52,13 @@ def make_symbol(name, value):
     return attr.ib()
 
 
-def make_expr(name, value):
-    return attr.ib(default=ExplicitReprExpr(name))
+def make_expr(model_class, name, value):
+    symbol_to_name = {
+        symbol: name
+        for name, symbol in model_class.__dict__.items()
+        if symbol in value.free_symbols
+    }
+    return attr.ib(factory=lambda: Expr(value.subs(symbol_to_name)))
 
 
 @attr.s
@@ -69,7 +77,7 @@ def model(cls):
         elif isinstance(v, sympy.Symbol):
             these[k] = make_symbol(k, v)
         elif isinstance(v, sympy.Expr):
-            these[k] = make_expr(k, v)
+            these[k] = make_expr(cls, k, v)
 
     return attr.make_class(cls.__name__, these)
 
@@ -115,8 +123,8 @@ print(inst)
 #     avg_effect=NormalRV(loc=0.0, scale=10.0),
 #     avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #     school_effects_standard=NormalRV(loc=0.0, scale=1.0),
-#     school_effects=<Expr school_effects>,
-#     treatment_effects=NormalRV(loc=<Expr school_effects>, scale=<Expr sigma>),
+#     school_effects=<Expr avg_effect + sigma*exp(avg_stddev)>,
+#     treatment_effects=NormalRV(loc=<Symbol school_effects>, scale=<Symbol sigma>)
 # )
 
 observed = observe(inst, treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
@@ -129,8 +137,8 @@ print(observed)
 #         avg_effect=NormalRV(loc=0.0, scale=10.0),
 #         avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #         school_effects_standard=NormalRV(loc=0.0, scale=1.0),
-#         school_effects=<Expr school_effects>,
-#         treatment_effects=NormalRV(loc=<Expr school_effects>, scale=<Expr sigma>),
+#         school_effects=<Expr avg_effect + sigma*exp(avg_stddev)>,
+#         treatment_effects=NormalRV(loc=<Symbol school_effects>, scale=<Symbol sigma>),
 #     ),
-#     data=Dataset(treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]),
+#     data=Dataset(treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
 # )
