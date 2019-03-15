@@ -24,6 +24,11 @@ class ExplicitReprSymbol(sympy.Symbol):
         return "<Symbol {}>".format(super().__repr__())
 
 
+class ExplicitReprExpr(sympy.Expr):
+    def __repr__(self):
+        return "<Expr {}>".format(super().__repr__())
+
+
 def find_symbol_name(model_class, symbol):
     for k, v in model_class.__dict__.items():
         if symbol == v:
@@ -45,7 +50,7 @@ def make_symbol(name, value):
 
 
 def make_expr(name, value):
-    return attr.ib(default=ExplicitReprSymbol(name))
+    return attr.ib(default=ExplicitReprExpr(name))
 
 
 @attr.s
@@ -110,8 +115,8 @@ print(inst)
 #     avg_effect=NormalRV(loc=0.0, scale=10.0),
 #     avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #     school_effects_standard=NormalRV(loc=0.0, scale=1.0),
-#     school_effects=<Symbol school_effects>,
-#     treatment_effects=NormalRV(loc=<Symbol school_effects>, scale=<Symbol sigma>),
+#     school_effects=<Expr school_effects>,
+#     treatment_effects=NormalRV(loc=<Expr school_effects>, scale=<Expr sigma>),
 # )
 
 observed = observe(inst, treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
@@ -124,8 +129,8 @@ print(observed)
 #         avg_effect=NormalRV(loc=0.0, scale=10.0),
 #         avg_stddev=NormalRV(loc=5.0, scale=1.0),
 #         school_effects_standard=NormalRV(loc=0.0, scale=1.0),
-#         school_effects=<Symbol school_effects>,
-#         treatment_effects=NormalRV(loc=<Symbol school_effects>, scale=<Symbol sigma>),
+#         school_effects=<Expr school_effects>,
+#         treatment_effects=NormalRV(loc=<Expr school_effects>, scale=<Expr sigma>),
 #     ),
 #     data=Dataset(treatment_effects=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]),
 # )
